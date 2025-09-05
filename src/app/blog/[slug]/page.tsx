@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { getPostBySlug, getAllPosts } from "../../../../lib/posts";
+import { ThemeToggle } from "../../../components/ThemeToggle";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -17,29 +18,34 @@ export default async function BlogDetailPage({ params }: PageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
       {/* ヘッダー */}
-      <header className="bg-white shadow-sm border-b">
+      <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
         <div className="max-w-4xl mx-auto px-4 py-6">
-          <h1 className="text-3xl font-bold text-gray-900">
-            <Link href="/" className="hover:text-blue-600 transition-colors">
-              Tech Blog
-            </Link>
-          </h1>
-          <nav className="mt-4 flex gap-6">
-            <Link 
-              href="/blog" 
-              className="text-gray-600 hover:text-blue-600 transition-colors"
-            >
-              全記事
-            </Link>
-          </nav>
+          <div className="flex justify-between items-center">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                <Link href="/" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                  Tech Blog
+                </Link>
+              </h1>
+              <nav className="mt-4 flex gap-6">
+                <Link 
+                  href="/blog" 
+                  className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                >
+                  全記事
+                </Link>
+              </nav>
+            </div>
+            <ThemeToggle />
+          </div>
         </div>
       </header>
 
       {/* メインコンテンツ */}
       <main className="max-w-4xl mx-auto px-4 py-12">
-        <article className="bg-white rounded-lg shadow-sm border p-8">
+        <article className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-8">
           {/* 記事メタ情報 */}
           <header className="mb-8">
             <div className="flex flex-wrap gap-2 mb-4">
@@ -47,16 +53,16 @@ export default async function BlogDetailPage({ params }: PageProps) {
                 <Link
                   key={tag}
                   href={`/tag/${encodeURIComponent(tag)}`}
-                  className="inline-block bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full hover:bg-blue-200 transition-colors"
+                  className="inline-block bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-sm px-3 py-1 rounded-full hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors"
                 >
                   #{tag}
                 </Link>
               ))}
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
               {post.title}
             </h1>
-            <time className="text-gray-500">
+            <time className="text-gray-500 dark:text-gray-400">
               {post.date}
             </time>
           </header>
@@ -67,37 +73,37 @@ export default async function BlogDetailPage({ params }: PageProps) {
               remarkPlugins={[remarkGfm]}
               components={{
                 h1: ({ children }) => (
-                  <h1 className="text-2xl font-bold text-gray-900 mt-8 mb-4 first:mt-0">
+                  <h1 className="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 first:mt-0">
                     {children}
                   </h1>
                 ),
                 h2: ({ children }) => (
-                  <h2 className="text-xl font-bold text-gray-900 mt-6 mb-3">
+                  <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-6 mb-3">
                     {children}
                   </h2>
                 ),
                 h3: ({ children }) => (
-                  <h3 className="text-lg font-bold text-gray-900 mt-4 mb-2">
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mt-4 mb-2">
                     {children}
                   </h3>
                 ),
                 p: ({ children }) => (
-                  <p className="text-gray-700 leading-7 mb-4">
+                  <p className="text-gray-700 dark:text-gray-300 leading-7 mb-4">
                     {children}
                   </p>
                 ),
                 ul: ({ children }) => (
-                  <ul className="list-disc list-inside text-gray-700 mb-4 space-y-1">
+                  <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 mb-4 space-y-1">
                     {children}
                   </ul>
                 ),
                 ol: ({ children }) => (
-                  <ol className="list-decimal list-inside text-gray-700 mb-4 space-y-1">
+                  <ol className="list-decimal list-inside text-gray-700 dark:text-gray-300 mb-4 space-y-1">
                     {children}
                   </ol>
                 ),
                 li: ({ children }) => (
-                  <li className="text-gray-700">
+                  <li className="text-gray-700 dark:text-gray-300">
                     {children}
                   </li>
                 ),
@@ -105,31 +111,31 @@ export default async function BlogDetailPage({ params }: PageProps) {
                   const isInline = !className;
                   if (isInline) {
                     return (
-                      <code className="bg-gray-100 text-gray-800 px-1 py-0.5 rounded text-sm">
+                      <code className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-1 py-0.5 rounded text-sm">
                         {children}
                       </code>
                     );
                   }
                   return (
-                    <code className="block bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm mb-4">
+                    <code className="block bg-gray-900 dark:bg-gray-800 text-gray-100 dark:text-gray-200 p-4 rounded-lg overflow-x-auto text-sm mb-4">
                       {children}
                     </code>
                   );
                 },
                 pre: ({ children }) => (
-                  <pre className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto mb-4">
+                  <pre className="bg-gray-900 dark:bg-gray-800 text-gray-100 dark:text-gray-200 p-4 rounded-lg overflow-x-auto mb-4">
                     {children}
                   </pre>
                 ),
                 blockquote: ({ children }) => (
-                  <blockquote className="border-l-4 border-blue-500 pl-4 py-2 mb-4 bg-blue-50">
+                  <blockquote className="border-l-4 border-blue-500 dark:border-blue-400 pl-4 py-2 mb-4 bg-blue-50 dark:bg-blue-900/20">
                     {children}
                   </blockquote>
                 ),
                 a: ({ href, children }) => (
                   <a 
                     href={href} 
-                    className="text-blue-600 hover:text-blue-800 underline"
+                    className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 underline"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -147,7 +153,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
         <div className="mt-8 text-center">
           <Link 
             href="/blog"
-            className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white rounded-lg transition-colors"
           >
             記事一覧に戻る
           </Link>
@@ -155,9 +161,9 @@ export default async function BlogDetailPage({ params }: PageProps) {
       </main>
 
       {/* フッター */}
-      <footer className="bg-white border-t">
+      <footer className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
         <div className="max-w-4xl mx-auto px-4 py-8">
-          <p className="text-center text-gray-500">
+          <p className="text-center text-gray-500 dark:text-gray-400">
             © 2025 Tech Blog. All rights reserved.
           </p>
         </div>
