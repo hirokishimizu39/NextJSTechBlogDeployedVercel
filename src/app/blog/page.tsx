@@ -1,9 +1,8 @@
 import Link from "next/link";
-import { getAllPosts } from "../../lib/posts";
+import { getAllPosts } from "../../../lib/posts";
 
-export default function Home() {
+export default function BlogListPage() {
   const allPosts = getAllPosts();
-  const latestPosts = allPosts.slice(0, 3);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -18,7 +17,7 @@ export default function Home() {
           <nav className="mt-4 flex gap-6">
             <Link 
               href="/blog" 
-              className="text-gray-600 hover:text-blue-600 transition-colors"
+              className="text-blue-600 font-medium"
             >
               全記事
             </Link>
@@ -30,20 +29,20 @@ export default function Home() {
       <main className="max-w-4xl mx-auto px-4 py-12">
         <div className="mb-12">
           <h2 className="text-2xl font-bold text-gray-900 mb-2">
-            最新記事
+            全記事一覧
           </h2>
           <p className="text-gray-600">
-            技術に関する最新の記事をお届けします
+            {allPosts.length}件の記事があります
           </p>
         </div>
 
-        {latestPosts.length === 0 ? (
+        {allPosts.length === 0 ? (
           <div className="text-center py-12">
             <p className="text-gray-500">記事がまだありません</p>
           </div>
         ) : (
-          <div className="grid gap-8">
-            {latestPosts.map((post) => (
+          <div className="grid gap-6">
+            {allPosts.map((post) => (
               <article 
                 key={post.slug} 
                 className="bg-white rounded-lg shadow-sm border p-6 hover:shadow-md transition-shadow"
@@ -76,17 +75,6 @@ export default function Home() {
                 </div>
               </article>
             ))}
-          </div>
-        )}
-
-        {latestPosts.length > 0 && (
-          <div className="mt-12 text-center">
-            <Link 
-              href="/blog"
-              className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              すべての記事を見る
-            </Link>
           </div>
         )}
       </main>
